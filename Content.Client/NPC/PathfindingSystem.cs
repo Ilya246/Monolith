@@ -20,6 +20,7 @@ namespace Content.Client.NPC
         [Dependency] private IGameTiming _timing = default!;
         [Dependency] private IInputManager _inputManager = default!;
         [Dependency] private IMapManager _mapManager = default!;
+        [Dependency] private IOverlayManager _overlayManager = default!;
         [Dependency] private IResourceCache _cache = default!;
         [Dependency] private NPCSteeringSystem _steering = default!;
         [Dependency] private MapSystem _mapSystem = default!;
@@ -30,17 +31,15 @@ namespace Content.Client.NPC
             get => _modes;
             set
             {
-                var overlayManager = IoCManager.Resolve<IOverlayManager>();
-
                 if (value == PathfindingDebugMode.None)
                 {
                     Breadcrumbs.Clear();
                     Polys.Clear();
-                    overlayManager.RemoveOverlay<PathfindingOverlay>();
+                    _overlayManager.RemoveOverlay<PathfindingOverlay>();
                 }
-                else if (!overlayManager.HasOverlay<PathfindingOverlay>())
+                else if (!_overlayManager.HasOverlay<PathfindingOverlay>())
                 {
-                    overlayManager.AddOverlay(new PathfindingOverlay(EntityManager, _eyeManager, _inputManager, _mapManager, _cache, this, _mapSystem, _transformSystem));
+                    _overlayManager.AddOverlay(new PathfindingOverlay(EntityManager, _eyeManager, _inputManager, _mapManager, _cache, this, _mapSystem, _transformSystem));
                 }
 
                 if ((value & PathfindingDebugMode.Steering) != 0x0)
