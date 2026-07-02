@@ -48,7 +48,6 @@ public abstract partial class SharedGunSystem : EntitySystem
 {
     [Dependency] private   ActionBlockerSystem _actionBlockerSystem = default!;
     [Dependency] protected IGameTiming Timing = default!;
-    [Dependency] protected IMapManager MapManager = default!;
     [Dependency] private   INetManager _netManager = default!;
     [Dependency] protected IPrototypeManager ProtoManager = default!;
     [Dependency] protected IRobustRandom Random = default!;
@@ -62,6 +61,7 @@ public abstract partial class SharedGunSystem : EntitySystem
     [Dependency] protected SharedAudioSystem Audio = default!;
     [Dependency] private   SharedCombatModeSystem _combatMode = default!;
     [Dependency] protected SharedContainerSystem Containers = default!;
+    [Dependency] protected SharedMapSystem Maps = default!;
     [Dependency] protected SharedPointLightSystem Lights = default!;
     [Dependency] protected SharedPopupSystem PopupSystem = default!;
     [Dependency] protected SharedPhysicsSystem Physics = default!;

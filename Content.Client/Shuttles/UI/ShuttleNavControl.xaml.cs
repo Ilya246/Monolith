@@ -30,8 +30,8 @@ namespace Content.Client.Shuttles.UI;
 [Virtual]
 public partial class ShuttleNavControl : BaseShuttleControl // Mono
 {
-    [Dependency] private IMapManager _mapManager = default!;
     [Dependency] private IUserInterfaceManager _uiManager = default!;
+    private readonly SharedMapSystem _maps;
     private readonly DetectionSystem _detection; // Mono
     private readonly StationSystem _station; // Frontier
     private readonly SharedShuttleSystem _shuttles;
@@ -125,6 +125,7 @@ public partial class ShuttleNavControl : BaseShuttleControl // Mono
     public ShuttleNavControl(float minRange, float maxRange, float range) : base(minRange, maxRange, range) // Mono
     {
         RobustXamlLoader.Load(this);
+        _maps = EntManager.System<SharedMapSystem>();
         _detection = EntManager.System<DetectionSystem>(); // Mono
         _shuttles = EntManager.System<SharedShuttleSystem>();
         _transform = EntManager.System<SharedTransformSystem>();
@@ -649,7 +650,7 @@ public partial class ShuttleNavControl : BaseShuttleControl // Mono
         var viewAABB = viewBounds.CalcBoundingBox();
 
         _grids.Clear();
-        _mapManager.FindGridsIntersecting(xform.MapID, new Box2(mapPos.Position - MaxRadarRangeVector, mapPos.Position + MaxRadarRangeVector), ref _grids, approx: true, includeMap: false);
+        _maps.FindGridsIntersecting(xform.MapID, new Box2(mapPos.Position - MaxRadarRangeVector, mapPos.Position + MaxRadarRangeVector), ref _grids, approx: true, includeMap: false);
 
         // Mono edited: Frontier - collect blip location data outside foreach - more changes ahead
         _tempBlipDataList.Clear();

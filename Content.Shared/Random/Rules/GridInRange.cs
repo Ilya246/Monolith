@@ -24,12 +24,12 @@ public sealed partial class GridInRangeRule : RulesRule
         }
 
         var transform = entManager.System<SharedTransformSystem>();
-        var mapManager = IoCManager.Resolve<IMapManager>();
+        var maps = entManager.System<SharedMapSystem>();
 
         var worldPos = transform.GetWorldPosition(xform);
         var gridRange = new Vector2(Range, Range);
 
-        foreach (var _ in mapManager.FindGridsIntersecting(xform.MapID, new Box2(worldPos - gridRange, worldPos + gridRange)))
+        foreach (var _ in maps.FindGridsIntersecting(xform.MapID, new Box2(worldPos - gridRange, worldPos + gridRange)))
         {
             return !Inverted;
         }
